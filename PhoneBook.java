@@ -17,4 +17,31 @@ public class PhoneBook {
 
         phoneBook.printPhoneBook();
     }
+    private final Map<String, List<String>> phoneBook;
+
+    public PhoneBook() {
+        phoneBook = new HashMap<>();
+    }
+
+    public void addContact(String name, String phoneNumber) {
+        if (phoneBook.containsKey(name)) {
+            List<String> phoneNumbers = phoneBook.get(name);
+            phoneNumbers.add(phoneNumber);
+        } else {
+            List<String> phoneNumbers = new ArrayList<>();
+            phoneNumbers.add(phoneNumber);
+            phoneBook.put(name, phoneNumbers);
+        }
+    }
+
+    public void printPhoneBook() {
+        List<Map.Entry<String, List<String>>> list = new ArrayList<>(phoneBook.entrySet());
+
+        list.sort(Comparator.comparingInt(el -> el.getValue().size()));
+        Collections.reverse(list);
+
+        for (Map.Entry<String, List<String>> el : list) {
+            System.out.println(el.getValue().size() + ". " + el.getKey() + ": " + el.getValue());
+        }
+    }
 }
